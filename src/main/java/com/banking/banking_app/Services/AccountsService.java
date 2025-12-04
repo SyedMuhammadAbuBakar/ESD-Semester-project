@@ -20,32 +20,37 @@ public class AccountsService {
         this.customersRepository = customersRepository;
     }
 
-    public Accounts createAccount(CreateAccountReq account, Principal principal) {
-        Accounts newAccount = new Accounts();
-        newAccount.setAccountType(account.getAccountType());
-        newAccount.setCurrentAmount(account.getInitialDeposit());
+    private String generateAccountNumber() {
+    return "AC" + System.currentTimeMillis() + (int)(Math.random() * 1000);
+}
 
-        if (account.getAccountType() == AccountType.SAVINGS) {
-            
-            newAccount.setMaxAmount(10000000);
-            newAccount.setMinAmount(10000);
 
-        } else if (account.getAccountType() == AccountType.CHECKING) {
-           
-            newAccount.setMaxAmount(500000);
-            newAccount.setMinAmount(5000);
-            
-        } else {
-            
-            newAccount.setMaxAmount(1000000);
-            newAccount.setMinAmount(1000);
-        }
+public Accounts createAccount(CreateAccountReq account, Principal principal) {
+    Accounts newAccount = new Accounts();
+    newAccount.setAccountType(account.getAccountType());
+    newAccount.setCurrentAmount(account.getInitialDeposit());
 
-        Customers tempCustomer = customersRepository.findByCustomerName(principal.getName())
-            .orElseThrow(() -> new IllegalArgumentException("Customer not found"));
-        
-        newAccount.setCustomers(tempCustomer);
+    if (account.getAccountType() == AccountType.SAVINGS) {
+        newAccount.setMaxAmount(10000000);
+        newAccount.setMinAmount(10000);
 
-        return accountRepository.save(newAccount);
+    } else if (account.getAccountType() == AccountType.CHECKING) {
+        newAccount.setMaxAmount(500000);
+        newAccount.setMinAmount(5000);
+
+    } else {
+        newAccount.setMaxAmount(1000000);
+        newAccount.setMinAmount(1000);
     }
+
+    Customers tempCustomer = customersRepository.findByCustomerName(principal.getName())
+            .orElseThrow(() -> new IllegalArgumentException("Customer not found"));
+
+    newAccount.setCustomers(tempCustomer);
+
+    newAccount.setAccountNo(generateAccountNumber());
+
+    return accountRepository.save(newAccount);
+}
+
 }

@@ -1,22 +1,29 @@
 package com.banking.banking_app.Entities;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.AccessLevel;
+
 @Entity
 @Getter
 @Setter
-@Table(name="employees")
+@Table(name = "employees")
 public class Employees {
 
-@Id
-@GeneratedValue(strategy = GenerationType.SEQUENCE)
-@Setter(AccessLevel.NONE)
-Long EmployeeId;
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    private Long employeeId;
 
+    @Column(nullable = false, unique = true)
+    private String employeeName;
+
+    @Transient
+    String password;
+
+    @Column(nullable = false)
+    private String hashedPassword;
+
+    @Column(nullable = false)
+    private String role = "EMPLOYEE";
+    
 }

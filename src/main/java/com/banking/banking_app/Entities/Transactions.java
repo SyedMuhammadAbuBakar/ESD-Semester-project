@@ -7,10 +7,12 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import jakarta.persistence.Column;
 import lombok.AccessLevel;
 
+@NoArgsConstructor
 @Entity
 @Table(name="Transactions")
 @Setter
@@ -30,7 +32,13 @@ private double amount;
 private Accounts SenderAccount;
 
 @ManyToOne
-@JoinColumn(name="ReceiverId")
+@JoinColumn(name="ReceiverId") 
 private Accounts ReceiverAccount;
+
+public Transactions(double amount, Accounts senderAccount, Accounts receiverAccount) {
+    this.amount = amount;
+    this.SenderAccount = senderAccount;
+    this.ReceiverAccount = receiverAccount;
+    }   
 
 };

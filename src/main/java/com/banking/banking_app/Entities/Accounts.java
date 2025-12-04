@@ -11,6 +11,10 @@ import jakarta.persistence.Table;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
+import com.banking.banking_app.Entities.Customers;
+import com.banking.banking_app.Enums.AccountType;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 
 @Entity
 @Getter
@@ -27,8 +31,9 @@ Long AccountId;
 @JoinColumn(name="customer_id")
 private Customers customers;
 
+@Enumerated(EnumType.STRING)
 @Column(nullable = false)
-String AccountType;
+AccountType accountType;
 
 @Column(nullable = false)
 double CurrentAmount;
@@ -38,5 +43,8 @@ double MinAmount;
 
 @Column(nullable = false)
 double MaxAmount;
+
+@Column(nullable = false, unique = true)
+String AccountNo;
 
 }

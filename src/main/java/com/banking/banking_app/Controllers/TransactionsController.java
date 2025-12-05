@@ -24,6 +24,7 @@ public String transferMoney(@RequestBody TransferReq transferRequest, Principal 
     
     String customerName = principal.getName();
 
+    transactionsService.TransferMoney(customerName, transferRequest.getReceiverAccountId() , transferRequest.getAmount());
     return "";
     
 

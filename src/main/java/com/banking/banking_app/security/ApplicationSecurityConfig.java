@@ -64,6 +64,9 @@ public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Excepti
             .requestMatchers("/createAccount")
                 .hasAuthority("CUSTOMER")
 
+            .requestMatchers("/transfer")
+                .hasAuthority("CUSTOMER")
+
             .anyRequest().authenticated()
         )
         .addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
